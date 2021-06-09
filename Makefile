@@ -1,6 +1,6 @@
 .PHONY: build clean plugin push
 
-PLUGIN_NAME = sebt3/docker-plugin-cephfs
+PLUGIN_NAME ?= sebt3/docker-plugin-cephfs
 PLUGIN_TAG ?= master
 
 plugin: build
@@ -12,7 +12,7 @@ clean:
 
 build: clean
 	docker rmi --force ${PLUGIN_NAME}:rfs || true
-	docker build --quiet --tag ${PLUGIN_NAME}:rfs .
+	docker build --tag ${PLUGIN_NAME}:rfs .
 	docker create --name tmp ${PLUGIN_NAME}:rfs sh
 	mkdir -p build/rootfs
 	docker export tmp | tar -x -C build/rootfs/
